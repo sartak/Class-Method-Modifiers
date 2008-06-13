@@ -1,0 +1,39 @@
+Revision history for Class-Method-Modifiers
+
+1.01
+        Revert the caching fix. It makes wrapping parent-class methods
+        painfully slower.
+
+1.00    Wed Jun 11 06:10:51 2008
+        Complete reimplementation. Half the code. Faster than Moose.
+        Remove 'guard' for now.
+        *All* internals are changed.
+
+0.07    Wed Sep 12 21:55:16 2007
+        Add 'guard' modifier to facilitate bailing out in some conditions
+
+0.06    Sun Sep  9 23:27:50 2007
+        You may now modify a method in the same class as it is defined
+
+0.05    Fri Aug 17 23:26:53 2007
+        More internals fixes (I'm abusing this module a bit, you see)
+        Grammar fixes
+
+0.04    Fri Aug 17 17:49:55 2007
+        Internals changes
+
+0.03    Mon Aug  6 22:57:13 2007
+        Can now use multiple modifiers of the same type in one class
+        Should handle C3 MRO now
+        Can now handle: before 'left', 'right' => sub { ... }
+
+0.02    Sun Aug  5 16:42:43 2007
+        No need to shallow-copy @_
+        Don't stick a super method in UNIVERSAL (mst)
+        Let multiple modifiers coexist in one class
+        Better error checking
+
+0.01    Sun Aug  5 06:10:30 2007
+        First version, released on an unsuspecting world.
+
+
