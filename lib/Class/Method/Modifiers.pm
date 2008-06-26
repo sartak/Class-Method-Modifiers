@@ -118,15 +118,15 @@ sub _install_modifier {
     }
 }
 
-sub before(@&) {
+sub before {
     _install_modifier(scalar(caller), 'before', @_);
 }
 
-sub after(@&) {
+sub after {
     _install_modifier(scalar(caller), 'after', @_);
 }
 
-sub around(@&) {
+sub around {
     _install_modifier(scalar(caller), 'around', @_);
 }
 
