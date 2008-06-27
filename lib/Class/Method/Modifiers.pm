@@ -5,7 +5,7 @@ use warnings;
 
 use MRO::Compat;
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 use base 'Exporter';
 our @EXPORT = qw(before after around);

@@ -1,8 +1,9 @@
 Revision history for Class-Method-Modifiers
 
-1.01
+1.01    Thu Jun 26 22:22:30 2008
         Revert the caching fix. It makes wrapping parent-class methods
-        painfully slower.
+            painfully slower.
+        Remove the prototypes, newer Perls (rightly) warn about (@&)
 
 1.00    Wed Jun 11 06:10:51 2008
         Complete reimplementation. Half the code. Faster than Moose.
