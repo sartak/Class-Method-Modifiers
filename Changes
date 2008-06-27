@@ -1,5 +1,7 @@
 Revision history for Class-Method-Modifiers
 
+1.02
+
 1.01    Thu Jun 26 22:22:30 2008
         Revert the caching fix. It makes wrapping parent-class methods
             painfully slower.
