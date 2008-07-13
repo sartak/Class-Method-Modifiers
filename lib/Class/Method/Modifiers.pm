@@ -3,8 +3,6 @@ package Class::Method::Modifiers;
 use strict;
 use warnings;
 
-use MRO::Compat;
-
 our $VERSION = '1.02';
 
 use base 'Exporter';
