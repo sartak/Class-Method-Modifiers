@@ -2,7 +2,7 @@ package Class::Method::Modifiers;
 use strict;
 use warnings;
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 use base 'Exporter';
 our @EXPORT = qw(before after around);
@@ -94,8 +94,11 @@ sub _install_modifier {
                     if (wantarray) {
                         @ret = $$wrapped->(@_);
                     }
-                    else {
+                    elsif (defined wantarray) {
                         $ret[0] = $$wrapped->(@_);
+                    }
+                    else {
+                        $$wrapped->(@_);
                     }
 
                     $_->(@_) for @$after;
