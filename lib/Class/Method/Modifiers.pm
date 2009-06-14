@@ -286,13 +286,7 @@ CLOS
 
 =head1 AUTHOR
 
-Shawn M Moore, C<< <sartak at gmail.com> >>
-
-=head1 BUGS
-
-Please report any bugs through RT: email
-C<bug-class-method-modifiers at rt.cpan.org>, or browse to
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Class-Method-Modifiers>.
+Shawn M Moore, C<sartak@gmail.com>
 
 =head1 ACKNOWLEDGEMENTS
 
@@ -301,9 +295,9 @@ method modifiers otherwise.
 
 Thanks to Matt Trout and Stevan Little for their advice.
 
-=head1 COPYRIGHT & LICENSE
+=head1 COPYRIGHT AND LICENSE
 
-Copyright 2007-2008 Shawn M Moore.
+Copyright 2007-2009 Shawn M Moore.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
