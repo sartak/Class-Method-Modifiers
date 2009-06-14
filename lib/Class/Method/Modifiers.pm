@@ -183,8 +183,8 @@ L<Term::VT102::ZeroBased> for an example of subclassing with CMM.
 In short, C<Class::Method::Modifiers> solves the problem of making sure you
 call C<< $self->SUPER::foo(@_) >>, and provides a cleaner interface for it.
 
-As of version 1.00, C<Class::Method::Modifiers> is faster than L<Moose>. See
-C<benchmark/method_modifiers.pl> in the L<Moose> distribution.
+As of version 1.00, C<Class::Method::Modifiers> is faster in some cases than
+L<Moose>. See C<benchmark/method_modifiers.pl> in the L<Moose> distribution.
 
 =head1 MODIFIERS
 
