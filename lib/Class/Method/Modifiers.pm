@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 package Class::Method::Modifiers;
 use strict;
 use warnings;
