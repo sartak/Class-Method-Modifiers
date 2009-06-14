@@ -1,5 +1,7 @@
 Revision history for Class-Method-Modifiers
 
+1.04
+
 1.03    Sun Jun 14 14:44:25 2009
         Modernize the dist
         Fix possible test failures
