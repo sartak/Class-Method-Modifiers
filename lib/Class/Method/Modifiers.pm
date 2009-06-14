@@ -12,8 +12,6 @@ our %EXPORT_TAGS = (
     all   => \@EXPORT_OK,
 );
 
-use Carp 'confess';
-
 our %MODIFIER_CACHE;
 
 sub _install_modifier {
@@ -23,8 +21,10 @@ sub _install_modifier {
     my @names = @_;
 
     for my $name (@names) {
-        my $hit = $into->can($name)
-            or confess "The method '$name' is not found in the inheritance hierarchy for class $into";
+        my $hit = $into->can($name) or do {
+            require Carp;
+            Carp::confess "The method '$name' is not found in the inheritance hierarchy for class $into";
+        };
 
         my $qualified = $into.'::'.$name;
         my $cache = $MODIFIER_CACHE{$into}{$name} ||= {
@@ -49,7 +49,8 @@ sub _install_modifier {
             #        my $code = *{$package.'::'.$name}{CODE};
             #        goto $code if $code;
             #    }
-            #    confess "$qualified\::$name disappeared?";
+            #    require Carp;
+            #    Carp::confess "$qualified\::$name disappeared?";
             #};
         }
 
