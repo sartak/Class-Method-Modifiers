@@ -1,6 +1,10 @@
 Revision history for Class-Method-Modifiers
 
-1.02
+1.02    Sun Jun 14 14:44:25 2009
+        Lift dependency on on MRO::Compat
+        Modernize the dist
+        Fix possible test failures
+        Only load Carp if we have to
 
 1.01    Thu Jun 26 22:22:30 2008
         Revert the caching fix. It makes wrapping parent-class methods
