@@ -1,6 +1,8 @@
 Revision history for Class-Method-Modifiers
 
-1.04
+1.04    Mon Jun 15 11:33:31 2009
+        We need parens around confess if we're going to delay-load
+            Carp, affects only 5.10 (reported by David Raab)
 
 1.03    Sun Jun 14 14:44:25 2009
         Modernize the dist

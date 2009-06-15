@@ -23,7 +23,7 @@ sub _install_modifier {
     for my $name (@names) {
         my $hit = $into->can($name) or do {
             require Carp;
-            Carp::confess "The method '$name' is not found in the inheritance hierarchy for class $into";
+            Carp::confess("The method '$name' is not found in the inheritance hierarchy for class $into");
         };
 
         my $qualified = $into.'::'.$name;
@@ -50,7 +50,7 @@ sub _install_modifier {
             #        goto $code if $code;
             #    }
             #    require Carp;
-            #    Carp::confess "$qualified\::$name disappeared?";
+            #    Carp::confess("$qualified\::$name disappeared?");
             #};
         }
 
