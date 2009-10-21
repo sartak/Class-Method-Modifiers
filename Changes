@@ -1,6 +1,7 @@
 Revision history for Class-Method-Modifiers
 
 1.05
+        Add install_modifier as a public API
 
 1.04    Mon Jun 15 11:33:31 2009
         We need parens around confess if we're going to delay-load

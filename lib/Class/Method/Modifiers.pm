@@ -6,7 +6,7 @@ our $VERSION = '1.05';
 
 use base 'Exporter';
 our @EXPORT = qw(before after around);
-our @EXPORT_OK = @EXPORT;
+our @EXPORT_OK = (@EXPORT, 'install_modifier');
 our %EXPORT_TAGS = (
     moose => [qw(before after around)],
     all   => \@EXPORT_OK,
@@ -14,7 +14,11 @@ our %EXPORT_TAGS = (
 
 our %MODIFIER_CACHE;
 
-sub _install_modifier {
+# for backward compatibility
+sub _install_modifier; # -w
+*_install_modifier = \&install_modifier;
+
+sub install_modifier {
     my $into  = shift;
     my $type  = shift;
     my $code  = pop;
