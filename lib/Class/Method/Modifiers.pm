@@ -151,7 +151,7 @@ Class::Method::Modifiers - provides Moose-like method modifiers
 
     sub new_method { }
 
-    before 'old_method' => sub {
+    before 'old_method', 'other_old_method' => sub {
         carp "old_method is deprecated, use new_method";
     };
 
