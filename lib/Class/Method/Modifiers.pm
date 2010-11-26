@@ -24,6 +24,8 @@ sub install_modifier {
     my $code  = pop;
     my @names = @_;
 
+    @names = @{ $names[0] } if ref($names[0]) eq 'ARRAY';
+
     for my $name (@names) {
         my $hit = $into->can($name) or do {
             require Carp;

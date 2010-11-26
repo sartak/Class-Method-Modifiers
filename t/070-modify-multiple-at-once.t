@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More tests => 4;
 my @seen;
 
 package Parent;
@@ -14,13 +14,24 @@ our @ISA = 'Parent';
 use Class::Method::Modifiers;
 before 'left', 'right' => sub { push @seen, 'before' };
 
+package Grandchild;
+our @ISA = 'Child';
+use Class::Method::Modifiers;
+before ['left', 'right'] => sub { push @seen, 'grandbefore' };
+
 package main;
 
 my $child = Child->new();
 $child->left;
-is_deeply(\@seen, [qw/before orig-left/], "correct 'left' results");
+is_deeply([splice @seen], [qw/before orig-left/], "correct 'left' results");
 
-@seen = ();
 $child->right;
-is_deeply(\@seen, [qw/before orig-right/], "correct 'right' results");
+is_deeply([splice @seen], [qw/before orig-right/], "correct 'right' results");
+
+my $grand = Grandchild->new();
+$grand->left;
+is_deeply([splice @seen], [qw/grandbefore before orig-left/], "correct 'left' results");
+
+$grand->right;
+is_deeply([splice @seen], [qw/grandbefore before orig-right/], "correct 'right' results");
 
