@@ -163,6 +163,11 @@ Class::Method::Modifiers - provides Moose-like method modifiers
         return $ret =~ /\d/ ? $ret : lc $ret;
     };
 
+    after 'private', 'protected' => sub {
+        debug "finished calling a dangerous method";
+    };
+
+
 =head1 DESCRIPTION
 
 Method modifiers are a powerful feature from the CLOS (Common Lisp Object
