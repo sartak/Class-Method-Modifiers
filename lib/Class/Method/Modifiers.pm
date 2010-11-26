@@ -170,7 +170,7 @@ Class::Method::Modifiers - provides Moose-like method modifiers
 
 =head1 DESCRIPTION
 
-Method modifiers are a powerful feature from the CLOS (Common Lisp Object
+Method modifiers are a convenient feature from the CLOS (Common Lisp Object
 System) world.
 
 In its most basic form, a method modifier is just a method that calls
