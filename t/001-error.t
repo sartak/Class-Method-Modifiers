@@ -2,33 +2,36 @@
 use strict;
 use warnings;
 use Test::More tests => 4;
-use Test::Exception;
+use Test::Fatal;
 
 do {
     package Class1;
     use Class::Method::Modifiers;
 
-    ::throws_ok {
-        before foo => sub {};
-    } qr/The method 'foo' is not found in the inheritance hierarchy for class Class1/;
+    ::like(
+      ::exception { before foo => sub {}; },
+      qr/The method 'foo' is not found in the inheritance hierarchy for class Class1/,
+    );
 };
 
 do {
     package Class2;
     use Class::Method::Modifiers;
 
-    ::throws_ok {
-        after foo => sub {};
-    } qr/The method 'foo' is not found in the inheritance hierarchy for class Class2/;
+    ::like(
+      ::exception { after foo => sub {}; },
+      qr/The method 'foo' is not found in the inheritance hierarchy for class Class2/,
+    );
 };
 
 do {
     package Class3;
     use Class::Method::Modifiers;
 
-    ::throws_ok {
-        around foo => sub {};
-    } qr/The method 'foo' is not found in the inheritance hierarchy for class Class3/;
+    ::like(
+      ::exception { around foo => sub {}; },
+      qr/The method 'foo' is not found in the inheritance hierarchy for class Class3/,
+    );
 };
 
 do {
@@ -37,8 +40,9 @@ do {
 
     sub foo {}
 
-    ::throws_ok {
-        around 'foo', 'bar' => sub {};
-    } qr/The method 'bar' is not found in the inheritance hierarchy for class Class4/;
+    ::like(
+      ::exception { around 'foo', 'bar' => sub {}; },
+      qr/The method 'bar' is not found in the inheritance hierarchy for class Class4/,
+    );
 };
 
