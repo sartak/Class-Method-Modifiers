@@ -6,7 +6,7 @@ name           'Class-Method-Modifiers';
 all_from       'lib/Class/Method/Modifiers.pm';
 githubmeta;
 
-build_requires 'Test::Exception';
+build_requires 'Test::Fatal';
 
 WriteAll;
 

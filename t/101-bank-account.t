@@ -6,7 +6,6 @@ use Carp;
 
 # another test file stolen from Class::MOP
 
-# no need to bring in Test::Exception .. >_>
 sub lives_ok (&$)
 {
     my ($code, $name) = @_;
