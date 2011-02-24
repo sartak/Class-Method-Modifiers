@@ -1,7 +1,10 @@
 Revision history for Class-Method-Modifiers
 
+1.07    Wed Feb 23 2011
+        Move from Test::Exception to Test::Fatal (Justin Hunter)
+
 1.06    Fri Nov 26 2010
-        Add support for: modifier ["name1", "name2"] => sub {}  
+        Add support for: modifier ["name1", "name2"] => sub {}
 
 1.05    Wed Oct 21 14:01:11 2009
         Add install_modifier as a public API (Goro Fuji)
