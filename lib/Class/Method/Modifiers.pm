@@ -254,6 +254,13 @@ You can use C<around> to:
 
 =back
 
+=head2 install_modifier $package, $type, @names, sub { ... }
+
+C<install_modifier> is like C<before>, C<after>, and C<around> but it also
+lets you dynamically select the modifier type ('before', 'after', 'around')
+and package that the method modifiers are installed into. This expert-level
+function is exported only when you ask for it specifically, or for C<:all>.
+
 =head1 NOTES
 
 All three normal modifiers; C<before>, C<after>, and C<around>; are exported
