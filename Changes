@@ -1,5 +1,8 @@
 Revision history for Class-Method-Modifiers
 
+1.08    Sun Oct 16 2011
+        Document install_modifier (requested by Tokuhiro Matsuno)
+
 1.07    Wed Feb 23 2011
         Move from Test::Exception to Test::Fatal (Justin Hunter)
 
