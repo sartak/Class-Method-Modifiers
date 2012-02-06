@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::More;
-use Class::MOP;
+use Test::Requires 'Class::MOP';
 
 # code for this sub is taken directly from
 # Test::CleanNamespaces::build_namespaces_clean

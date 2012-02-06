@@ -14,8 +14,6 @@ our %EXPORT_TAGS = (
 
 our %MODIFIER_CACHE;
 
-use Sub::Name 'subname';
-
 # for backward compatibility
 sub _install_modifier; # -w
 *_install_modifier = \&install_modifier;
@@ -70,15 +68,11 @@ sub install_modifier {
             unshift @{ $cache->{$type} }, $code;
         }
 
-        my $target = $into . '::' . $name;
-
         # wrap the method with another layer of around. much simpler than
         # the Moose equivalent. :)
         if ($type eq 'around') {
             my $method = $cache->{wrapped};
-            $cache->{wrapped} = subname $target, sub {
-                $code->($method, @_);
-            };
+            $cache->{wrapped} = eval "package $into; sub { \$code->(\$method, \@_); };";
         }
 
         # install our new method which dispatches the modifiers, but only
@@ -93,7 +87,8 @@ sub install_modifier {
             # to take a reference to it. better a deref than a hash lookup
             my $wrapped = \$cache->{"wrapped"};
 
-            my $generated = 'sub {';
+            my $generated = "package $into;\n";
+            $generated .= "sub $name {";
 
             # before is easy, it doesn't affect the return value(s)
             $generated .= '$_->(@_) for @$before;' if @$before;
@@ -124,7 +119,7 @@ sub install_modifier {
 
             no strict 'refs';
             no warnings 'redefine';
-            *$qualified = subname $target, eval $generated;
+            eval $generated;
         };
     }
 }

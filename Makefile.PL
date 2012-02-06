@@ -6,10 +6,11 @@ name           'Class-Method-Modifiers';
 all_from       'lib/Class/Method/Modifiers.pm';
 githubmeta;
 
-requires 'Sub::Name';
 test_requires 'Test::Fatal';
 test_requires 'Test::More';
-test_requires 'Class::MOP';
+test_requires 'Test::Requires';
+
+author_requires 'Class::MOP';
 
 WriteAll;
 
