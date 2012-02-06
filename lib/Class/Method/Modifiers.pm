@@ -14,6 +14,8 @@ our %EXPORT_TAGS = (
 
 our %MODIFIER_CACHE;
 
+use Sub::Name 'subname';
+
 # for backward compatibility
 sub _install_modifier; # -w
 *_install_modifier = \&install_modifier;
@@ -68,11 +70,13 @@ sub install_modifier {
             unshift @{ $cache->{$type} }, $code;
         }
 
+        my $target = $into . '::' . $name;
+
         # wrap the method with another layer of around. much simpler than
         # the Moose equivalent. :)
         if ($type eq 'around') {
             my $method = $cache->{wrapped};
-            $cache->{wrapped} = sub {
+            $cache->{wrapped} = subname $target, sub {
                 $code->($method, @_);
             };
         }
@@ -120,7 +124,7 @@ sub install_modifier {
 
             no strict 'refs';
             no warnings 'redefine';
-            *$qualified = eval $generated;
+            *$qualified = subname $target, eval $generated;
         };
     }
 }
