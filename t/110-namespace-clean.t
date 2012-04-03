@@ -2,7 +2,11 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Requires 'Class::MOP';
+
+BEGIN {
+    eval "require Class::MOP"
+        or plan skip_all => $!;
+}
 
 # code for this sub is taken directly from
 # Test::CleanNamespaces::build_namespaces_clean
