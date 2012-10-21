@@ -1,5 +1,8 @@
 Revision history for Class-Method-Modifiers
 
+        Avoid "Variable "$..." will not stay shared" warnings under 5.8.x
+        (from changes in 1.09) [#80194] (Karen Etheridge)
+
 1.09    2012-04-02
         Install modified subs in the proper namespace [#74569]
         (Karen Etheridge)

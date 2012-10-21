@@ -119,6 +119,7 @@ sub install_modifier {
 
             no strict 'refs';
             no warnings 'redefine';
+            no warnings 'closure';
             eval $generated;
         };
     }
