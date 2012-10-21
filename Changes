@@ -1,5 +1,6 @@
 Revision history for Class-Method-Modifiers
 
+1.10    2012-10-23
         Avoid "Variable "$..." will not stay shared" warnings under 5.8.x
         (from changes in 1.09) [#80194] (Karen Etheridge)
 
