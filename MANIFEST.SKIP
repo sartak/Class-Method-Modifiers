@@ -56,4 +56,4 @@
 # Avoid MYMETA files
 ^MYMETA\.
 
-^Class-Method-Modifiers-*
+/Class-Method-Modifiers-*
