@@ -161,15 +161,30 @@ sub _fresh {
             Carp::confess("Class $into already has a method named '$name'");
         }
 
-        # Use string-eval to create a new subroutine that wraps $code.  It
-        # would be nicer to inject $code into the package directly.  But
-        # doing that in the obvious way would leave $into with a coderef
-        # whose CvNAME isn't necessarily in the same package, so it would be
-        # subject to deletion when callers use namespace::autoclean.  Using
-        # Sub::Name would work around that, at the cost of introducing a
-        # dependency on an XS-using module.
-        eval "package $into; sub $name { my \$self = shift; \$self->\$code(\@_) }";
+        # We need to make sure that the installed method has its CvNAME in
+        # the appropriate package; otherwise, it would be subject to
+        # deletion if callers use namespace::autoclean.  If $code was
+        # compiled in the target package, we can just install it directly;
+        # otherwise, we'll need a different approach.  Using Sub::Name would
+        # be fine in all cases, at the cost of introducing a dependency on
+        # an XS-using, non-core module.  So instead we'll use string-eval to
+        # create a new subroutine that wraps $code.
+        if (_is_in_package($code, $into)) {
+            no strict 'refs';
+            *{"$into\::$name"} = $code;
+        }
+        else {
+            my $body = 'my $self = shift; $self->$code(@_)';
+            eval "package $into; sub $name { $body }";
+        }
     }
+}
+
+sub _is_in_package {
+    my ($coderef, $package) = @_;
+    require B;
+    my $cv = B::svref_2object($coderef);
+    return $cv->GV->STASH->NAME eq $package;
 }
 
 1;
