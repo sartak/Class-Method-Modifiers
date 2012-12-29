@@ -175,6 +175,7 @@ sub _fresh {
         }
         else {
             my $body = 'my $self = shift; $self->$code(@_)';
+            no warnings 'closure'; # for 5.8.x
             eval "package $into; sub $name { $body }";
         }
     }
