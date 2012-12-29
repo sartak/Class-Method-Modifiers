@@ -21,5 +21,6 @@ nytprof*
 .*.sw?
 SIGNATURE
 README
+LICENSE
 inc/
 /Class-Method-Modifiers-*
