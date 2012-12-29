@@ -20,5 +20,6 @@ nytprof*
 !.gitignore
 .*.sw?
 SIGNATURE
+README
 inc/
 /Class-Method-Modifiers-*
