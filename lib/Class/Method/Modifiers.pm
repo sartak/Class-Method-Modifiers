@@ -6,7 +6,7 @@ our $VERSION = '1.12';
 
 use base 'Exporter';
 our @EXPORT = qw(before after around);
-our @EXPORT_OK = (@EXPORT, 'install_modifier');
+our @EXPORT_OK = (@EXPORT, qw(fresh install_modifier));
 our %EXPORT_TAGS = (
     moose => [qw(before after around)],
     all   => \@EXPORT_OK,
@@ -25,6 +25,8 @@ sub install_modifier {
     my @names = @_;
 
     @names = @{ $names[0] } if ref($names[0]) eq 'ARRAY';
+
+    return _fresh($into, $code, @names) if $type eq 'fresh';
 
     for my $name (@names) {
         my $hit = $into->can($name) or do {
@@ -137,6 +139,55 @@ sub around {
     _install_modifier(scalar(caller), 'around', @_);
 }
 
+sub fresh {
+    my $code = pop;
+    my @names = @_;
+
+    @names = @{ $names[0] } if ref($names[0]) eq 'ARRAY';
+
+    _fresh(scalar(caller), $code, @names);
+}
+
+sub _fresh {
+    my ($into, $code, @names) = @_;
+
+    for my $name (@names) {
+        if ($name !~ /\A [a-zA-Z_] [a-zA-Z0-9_]* \z/xms) {
+            require Carp;
+            Carp::confess("Invalid method name '$name'");
+        }
+        if ($into->can($name)) {
+            require Carp;
+            Carp::confess("Class $into already has a method named '$name'");
+        }
+
+        # We need to make sure that the installed method has its CvNAME in
+        # the appropriate package; otherwise, it would be subject to
+        # deletion if callers use namespace::autoclean.  If $code was
+        # compiled in the target package, we can just install it directly;
+        # otherwise, we'll need a different approach.  Using Sub::Name would
+        # be fine in all cases, at the cost of introducing a dependency on
+        # an XS-using, non-core module.  So instead we'll use string-eval to
+        # create a new subroutine that wraps $code.
+        if (_is_in_package($code, $into)) {
+            no strict 'refs';
+            *{"$into\::$name"} = $code;
+        }
+        else {
+            my $body = 'my $self = shift; $self->$code(@_)';
+            no warnings 'closure'; # for 5.8.x
+            eval "package $into; sub $name { $body }";
+        }
+    }
+}
+
+sub _is_in_package {
+    my ($coderef, $package) = @_;
+    require B;
+    my $cv = B::svref_2object($coderef);
+    return $cv->GV->STASH->NAME eq $package;
+}
+
 1;
 
 __END__
@@ -165,6 +216,12 @@ Class::Method::Modifiers - provides Moose-like method modifiers
 
     after 'private', 'protected' => sub {
         debug "finished calling a dangerous method";
+    };
+
+    use Class::Method::Modifiers qw(fresh);
+
+    fresh 'not_in_hierarchy' => sub {
+        warn "freshly added method\n";
     };
 
 
@@ -199,6 +256,9 @@ call C<< $self->SUPER::foo(@_) >>, and provides a cleaner interface for it.
 
 As of version 1.00, C<Class::Method::Modifiers> is faster in some cases than
 L<Moose>. See C<benchmark/method_modifiers.pl> in the L<Moose> distribution.
+
+C<Class::Method::Modifiers> also provides an additional "modifier" type,
+C<fresh>; see below.
 
 =head1 MODIFIERS
 
@@ -254,10 +314,48 @@ You can use C<around> to:
 
 =back
 
+=head2 fresh method(s) => sub { ... };
+
+Unlike the other modifiers, this does not modify an existing method.
+Ordinarily, C<fresh> merely installs the coderef as a method in the
+appropriate class; but if the class hierarchy already contains a method of
+the same name, an exception is thrown.  The idea of this "modifier" is to
+increase safety when subclassing.  Suppose you're writing a subclass of a
+class Some::Base, and adding a new method:
+
+    package My::SubclassOf::C;
+    use base 'Some::Base';
+
+    sub foo { ... }
+
+If a later version of Some::Base also adds a new method named C<foo>, your
+method will shadow that method.  Alternatively, you can use C<fresh>
+to install the additional method into your subclass:
+
+    package My::SubclassOf::C;
+    use base 'Some::Base';
+
+    use Class::Method::Modifiers 'fresh';
+
+    fresh 'foo' => sub { ... };
+
+Now upgrading Some::Base to a version with a conflicting C<foo> method will
+cause an exception to be thrown; seeing that error will give you the
+opportunity to fix the problem (perhaps by picking a different method name
+in your subclass, or similar).
+
+Creating fresh methods with C<install_modifier> (see below) provides a way
+to get similar safety benefits when adding local monkeypatches to existing
+classes; see L<http://aaroncrane.co.uk/talks/monkey_patching_subclassing/>.
+
+For API compatibility reasons, this function is exported only when you ask
+for it specifically, or for C<:all>.
+
 =head2 install_modifier $package, $type, @names, sub { ... }
 
-C<install_modifier> is like C<before>, C<after>, and C<around> but it also
-lets you dynamically select the modifier type ('before', 'after', 'around')
+C<install_modifier> is like C<before>, C<after>, C<around>, and C<fresh> but
+it also lets you dynamically select the modifier type ('before', 'after',
+'around', 'fresh')
 and package that the method modifiers are installed into. This expert-level
 function is exported only when you ask for it specifically, or for C<:all>.
 
