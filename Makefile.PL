@@ -12,6 +12,8 @@ readme_from    'lib/Class/Method/Modifiers.pm';
 auto_license;
 githubmeta;
 
+perl_version '5.008';
+
 test_requires 'Test::Fatal';
 test_requires 'Test::More';
 
