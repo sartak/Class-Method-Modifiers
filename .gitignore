@@ -9,6 +9,7 @@
 /.build
 !.gitignore
 *.bs
+.prove
 /xs/*.c
 *.o
 cover_db
