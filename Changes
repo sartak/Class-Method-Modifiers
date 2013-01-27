@@ -1,5 +1,8 @@
 Revision history for Class-Method-Modifiers
 
+2.01    2013-01-27
+        Test for and fix $_ corruption (Vladimir Timofeev)
+
 2.00    2012-12-29
         New 'fresh' modifier (Aaron Crane)
 
