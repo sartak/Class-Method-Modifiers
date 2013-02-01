@@ -1,5 +1,8 @@
 Revision history for Class-Method-Modifiers
 
+2.02    2013-02-01
+        Dist improvements (Karen Etheridge)
+
 2.01    2013-01-27
         Test for and fix $_ corruption (Vladimir Timofeev)
 
